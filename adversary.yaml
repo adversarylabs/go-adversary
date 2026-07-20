@@ -1,0 +1,28 @@
+name: go
+version: 0.0.0
+description: Reviews Go for TLS bypasses, shell commands, and unsafe filesystem permissions.
+
+triggers:
+  manual: true
+  files_changed:
+    - "**/*.go"
+
+runtime:
+  name: node
+  version: "22"
+  command:
+    - dist/index.js
+
+permissions:
+  enforcement: advisory
+  filesystem:
+    read:
+      - .
+    write:
+      - .adversary/results
+  network: false
+  environment:
+    allow: []
+
+findings:
+  format: adversary.review.v1
