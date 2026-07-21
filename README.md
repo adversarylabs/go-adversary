@@ -16,3 +16,7 @@ npm test
 adversary validate .
 adversary pack --check .
 ```
+
+## Automatic detection
+
+`adversary auto` selects the go adversary when changes include `**/*.go`, plus the other domain-specific patterns declared in `adversary.yaml`. Unrelated changes do not select it.
