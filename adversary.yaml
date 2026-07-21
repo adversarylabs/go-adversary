@@ -1,5 +1,5 @@
 name: go
-version: 0.0.2
+version: 0.0.3
 description: Reviews Go for TLS bypasses, shell commands, and unsafe filesystem permissions.
 
 triggers:
