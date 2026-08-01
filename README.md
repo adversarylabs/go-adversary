@@ -2,6 +2,8 @@
 
 Reviews Go for TLS bypasses, shell commands, and unsafe filesystem permissions.
 
+> Architecture status: this is the legacy generic Go scanner. Its evidence should move into the bounded Go Security reviewer, while repository discovery, reads, search, and semantic analysis move into SDK/runtime ReviewContext capabilities. The cross-catalog capability audit lives in [ReviewContext capability discovery](https://github.com/adversarylabs/go-concurrency-adversary/blob/main/docs/review-context-capabilities.md).
+
 ## Checks
 
 - **Go TLS client skips certificate verification:** Keep certificate verification enabled.
