@@ -1,6 +1,23 @@
 name: lang/go
-version: 0.0.6
-description: Reviews Go for TLS bypasses, shell commands, and unsafe filesystem permissions.
+version: 0.0.7
+description: >
+  Go language pack — runs the full Go specialist suite (concurrency, security,
+  http, modules, …) plus this package’s own TLS/shell/permissions checks.
+
+# Composition: `adversary run lang/go` expands these (CLI with uses support).
+# Members detect; this package contributes generic Go security smells and is the
+# entry voice root when run by name.
+uses:
+  - name: go/cli
+  - name: go/concurrency
+  - name: go/database
+  - name: go/http
+  - name: go/modules
+  - name: go/observability
+  - name: go/performance
+  - name: go/project
+  - name: go/security
+  - name: go/testing
 
 triggers:
   manual: true
