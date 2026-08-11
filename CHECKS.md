@@ -48,12 +48,12 @@ Public grounding: gosec rule families (G204/G304/G306/G402), Go security best pr
 
 | | |
 | --- | --- |
-| **What** | Files or directories created world-writable |
-| **Why** | `0666`/`0777` permissions let any local user tamper with the file — config poisoning and privilege escalation primitives |
-| **Looks for** | `os.WriteFile`/`os.OpenFile`/`os.Mkdir(All)`/`os.Chmod` with permission literals granting world write (`0666`, `0777`, `0o666`, `0o777`) |
-| **Stays quiet when** | Owner-scoped or group-scoped modes; intentional shared sockets/fifos with a justifying comment (downgrade, don't silence) |
+| **What** | File or directory creation requests overly broad permissions |
+| **Why** | `0666`/`0777` and `ModePerm` request every relevant group and world permission bit before umask; permissive deployments can expose tampering primitives |
+| **Looks for** | Production creation/chmod calls with broad numeric modes; `os.Mkdir(All)` with direct `os.ModePerm`/`fs.ModePerm`, including wrapped or ORed expressions |
+| **Stays quiet when** | Explicit narrower modes; `ModePerm` used as a mask or inspection value, passed to non-directory APIs, or used in `_test.go` files |
 | **Public examples** | gosec G306/G302 |
-| **Remediation** | Use owner-scoped permissions (`0600`/`0644` files, `0700`/`0755` dirs) |
+| **Remediation** | Choose explicit least-privilege permissions (`0600`/`0644` files, `0700`/`0755` dirs) instead of relying on the process umask |
 
 ---
 

@@ -6,6 +6,7 @@ export interface MatchExpression {
 interface ContentMatch {
     kind: "content";
     files: string[];
+    excludeFiles?: string[];
     pattern: MatchExpression;
     requires: MatchExpression[];
 }
@@ -90,21 +91,22 @@ export declare const spec: {
         };
     }, {
         readonly id: "go.world-writable";
-        readonly title: "Go creates a world-writable path";
-        readonly summary: "Go creates a world-writable path";
+        readonly title: "Go requests overly broad file or directory permissions";
+        readonly summary: "Go requests overly broad file or directory permissions";
         readonly category: "security";
         readonly severity: "medium";
         readonly confidence: "high";
-        readonly whyItMatters: "Go creates a world-writable path weakens an important security boundary.";
-        readonly impact: "The repository may behave insecurely, unreliably, or differently from the reviewed configuration.";
-        readonly recommendation: "Use owner-scoped filesystem permissions.";
+        readonly whyItMatters: "A directory call using ModePerm requests overly broad directory permissions before the process umask is applied; broad numeric modes can expose files similarly.";
+        readonly impact: "The effective access depends on the deployment umask and can leave files writable or directories writable and executable by unintended users.";
+        readonly recommendation: "Choose an explicit least-privilege mode, such as 0600 or 0644 for files and 0700 or 0755 for directories.";
         readonly complexity: "small";
         readonly tags: ["security", "world-writable"];
         readonly match: {
             readonly kind: "content";
             readonly files: ["**/*.go"];
+            readonly excludeFiles: ["**/*_test.go"];
             readonly pattern: {
-                readonly pattern: "(?:os\\.(?:Chmod|Mkdir|MkdirAll|OpenFile)|WriteFile)\\([^\\n]*(?:0?777|0?666)\\b";
+                readonly pattern: "(?:(?:os\\.(?:Chmod|Mkdir|MkdirAll|OpenFile)|WriteFile)\\([^\\n]*(?:0?777|0?666)\\b|os\\.(?:Mkdir|MkdirAll)\\([^,\\n]*,\\s*(?=[^/\\n]*(?:os|fs)\\.ModePerm\\b)(?![^/\\n]*(?:&\\s*(?:os|fs)\\.ModePerm\\b|(?:os|fs)\\.ModePerm\\s*&))[^/\\n]*)";
                 readonly flags: "i";
             };
             readonly requires: [];
