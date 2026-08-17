@@ -1,5 +1,5 @@
 name: lang/go
-version: 0.0.8
+version: 0.0.9
 description: >
   Go language pack — runs the full Go specialist suite (concurrency, security,
   http, modules, …) plus this package’s own TLS/shell/permissions checks.
