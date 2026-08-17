@@ -1,44 +1,21 @@
-# Go adversary (`lang/go`)
+# Go adversary
 
-**Go language pack.** Running this package expands composition (`uses` in
-`adversary.yaml`) to the full Go specialist suite, then runs this package’s own
-generic checks (TLS bypass, shell execution, world-writable paths).
+Go language pack — runs the full Go specialist suite (concurrency, security, http, modules, …) plus this package’s own TLS/shell/permissions checks.
 
-```sh
-# CLI with composition support (adversarylabs/adversary uses expand):
-adversary run lang/go --path /path/to/repo
-# or local checkout:
-adversary run . --path /path/to/repo
-```
+## Goals
 
-Members (via `uses`): `go/cli`, `go/concurrency`, `go/database`, `go/http`,
-`go/modules`, `go/observability`, `go/performance`, `go/project`, `go/security`,
-`go/testing`.
+The adversary is designed to produce a small number of high-confidence,
+actionable findings grounded in concrete repository evidence. Its review should
+be deterministic where possible, explicit about impact, and quiet when the
+available evidence does not justify a finding.
 
-Use `--no-compose` to run only this package’s rules.
+## Scope
 
-> Architecture status: this package still carries legacy generic Go smells that
-> should move into bounded specialists (e.g. Go Security). Composition is the
-> product shape: **meta pack = entrypoint + specialists**.
+It provides the transitional generic Go review layer and composes the specialist Go adversaries while retaining a small compatibility rule set.
 
-## Checks (this package only)
+The complete detector or review inventory is maintained in
+[CHECKS.md](CHECKS.md).
 
-- **Go TLS client skips certificate verification:** Keep certificate verification enabled.
-- **Go executes through a shell:** Invoke the target binary directly.
-- **Go creates a world-writable path:** Use owner-scoped filesystem permissions.
+## Boundaries
 
-## Development
-
-```sh
-npm ci
-npm test
-adversary validate .
-adversary pack --check .
-```
-
-## Automatic detection
-
-`adversary auto` selects `lang/go` when changes include `**/*.go`, plus the other
-domain-specific patterns declared in `adversary.yaml`. Unrelated changes do not
-select it. (Auto mode does not expand `uses` yet; use an explicit
-`adversary run lang/go` for the full suite.)
+It is a transitional composition layer; new Go domain rules belong in the bounded `go/*` specialist that owns them.
