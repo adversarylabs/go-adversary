@@ -1,4 +1,4 @@
-name: lang/go
+name: adversarylabs/lang/go
 version: 0.0.9
 description: >
   Go language pack — runs the full Go specialist suite (concurrency, security,
