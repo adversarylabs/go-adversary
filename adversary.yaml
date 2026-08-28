@@ -1,5 +1,5 @@
 name: adversarylabs/lang/go
-version: 0.0.9
+version: 0.0.10
 description: >
   Go language pack — runs the full Go specialist suite (concurrency, security,
   http, modules, …) plus this package’s own TLS/shell/permissions checks.
